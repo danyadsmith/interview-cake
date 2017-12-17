@@ -1,17 +1,18 @@
 function getMaxProfit (stockPrices) {
   if (Array.isArray(stockPrices)) {
-    var maxProfit = 0;
-    const maxPrice = Math.max(...stockPrices);
-    if (stockPrices.indexOf(maxPrice) > 0) {
-      var possibleBuys = stockPrices.slice(0, stockPrices.indexOf(maxPrice));
-      var buyAt = Math.min(...possibleBuys);
-      maxProfit = maxPrice - buyAt;
+    if (stockPrices.length > 2) {
+      var minPrice = stockPrices[0];
+      var maxProfit = stockPrices[1] - stockPrices[0];
+      for (let i = 1; i < stockPrices.length; i = i + 1) {
+        var currentPrice = stockPrices[i];
+        var potentialProfit = currentPrice - minPrice;
+        maxProfit = Math.max(maxProfit, potentialProfit);
+        minPrice = Math.min(minPrice, currentPrice);
+      }
+      return maxProfit;
     } else {
-      var possibleSells = stockPrices.slice(1, stockPrices.length);
-      var sellAt = Math.max(...possibleSells);
-      maxProfit = sellAt - maxPrice;
+      throw new Error('A profit cannot be calculated with less than two stock prices.');
     }
-    return maxProfit;
   } else {
     throw new TypeError('The parameter stockPrices must be an array.');
   }

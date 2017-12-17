@@ -28,6 +28,11 @@ describe('Get Max Profit', () => {
         getMaxProfit(undefined);
       }).to.throw(TypeError, 'The parameter stockPrices must be an array.');
     });
+    it('should throw an error when less than two prices are in the array', () => {
+      expect(function () {
+        getMaxProfit([0]);
+      }).to.throw(Error, 'A profit cannot be calculated with less than two stock prices.');
+    });
     it('should return the maximum profit when a profit can be made', () => {
       expect(getMaxProfit([10, 7, 5, 8, 11, 9])).to.eql(6);
       expect(getMaxProfit([10, 7, 5, 8, 11, 2, 9])).to.eql(7);
